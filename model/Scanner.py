@@ -23,7 +23,7 @@ class Scanner:
     def displayDescription(self):
         print(ascci_banner)
         print("-" * self.lenght)
-        print("Host adress: " + self.hostServer)
+        print("Host adress: " + self.hostServer +' | ' +socket.gethostbyaddr(self.hostServer)[0])
         print("Scan from port 1 to port "+str(self.portMax))
         print("-" * self.lenght+'\n')
 
@@ -34,13 +34,13 @@ class Scanner:
             sock.settimeout(self.timeout)
             result = sock.connect_ex((self.hostServer, port))
             if result == 0:
-                print('Target '+self.hostServer+' Port '+str(port)+' open')
+                print('Target '+self.hostServer+' | Service '+socket.getservbyport(port)+' | Port '+str(port)+' open')
             sock.close()
         except socket.gaierror:
             pass
         except socket.error:
-            print("The server does not answer")
-            sys.exit()
+            print('Target '+self.hostServer+' | The server does not answer | Port '+str(port)+' open')
+            #sys.exit()
 
     def threader(self):
         while True:
